@@ -1,14 +1,16 @@
 name: d3pm
 channels:
-  - defaults
-  - conda-forge
+  - nvidia
   - pytorch
+  - conda-forge
+  - defaults
 dependencies:
   - python=3.9
+  - pytorch==2.2.*
+  - torchvision==0.17.*
+  - pytorch-cuda=12.1
   - pip
   - pip:
-      - torch
-      - torchvision
       - pillow
       - tqdm
       - wandb
