@@ -15,7 +15,6 @@ from collections import defaultdict
 from datetime import datetime
 from google.cloud import storage
 from PIL import Image
-import pdb
 
 from ddpo import utils
 from .serialization import mkdir
@@ -174,7 +173,10 @@ class H5Writer:
                 self._file[field][start:end] = x[:]
                 self._sizes[field] += size
             except Exception as e:
-                raise e
+                raise RuntimeError(
+                    f"failed to write field {field} with slice [{start}, {end})"
+                ) from e
+
 
     def close(self):
         for field, size in self._sizes.items():
