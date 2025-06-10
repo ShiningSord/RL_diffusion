@@ -146,6 +146,7 @@ class D3PM(nn.Module):
     ) -> None:
         super(D3PM, self).__init__()
         self.x0_model = x0_model
+        self.forward_type = forward_type
 
         self.n_T = n_T
         self.hybrid_loss_coeff = hybrid_loss_coeff
@@ -322,7 +323,17 @@ class D3PM(nn.Module):
         )
         return sample
 
-    def sample(self, x, cond=None):
+    def _init_image(self, shape, device):
+        if self.forward_type == "absorb":
+            return torch.ones(shape, dtype=torch.long, device=device)
+        else:
+            return torch.randint(0, self.num_classses, shape, device=device)
+
+    def sample(self, x=None, cond=None):
+        if x is None:
+            if cond is None:
+                raise ValueError("cond must be provided when x is None")
+            x = self._init_image(cond.shape, cond.device)
         for t in reversed(range(1, self.n_T)):
             t = torch.tensor([t] * x.shape[0], device=x.device)
             x = self.p_sample(
@@ -331,7 +342,11 @@ class D3PM(nn.Module):
 
         return x
 
-    def sample_with_image_sequence(self, x, cond=None, stride=10):
+    def sample_with_image_sequence(self, x=None, cond=None, stride=10):
+        if x is None:
+            if cond is None:
+                raise ValueError("cond must be provided when x is None")
+            x = self._init_image(cond.shape, cond.device)
         steps = 0
         images = []
         for t in reversed(range(1, self.n_T)):
@@ -410,10 +425,9 @@ if __name__ == "__main__":
                 with torch.no_grad():
                     # use random noise for conditioning during evaluation
                     cond_eval = torch.rand(4, 1, 128, 128, device=device)
-                    init_noise = torch.randint(0, N, (4, 1, 128, 128)).cuda()
 
                     images = d3pm.sample_with_image_sequence(
-                        init_noise, cond_eval, stride=40
+                        cond=cond_eval, stride=40
                     )
                     # image sequences to gif
                     gif = []
