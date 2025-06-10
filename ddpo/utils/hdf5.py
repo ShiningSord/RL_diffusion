@@ -177,6 +177,7 @@ class H5Writer:
                     f"failed to write field {field} with slice [{start}, {end})"
                 ) from e
 
+
     def close(self):
         for field, size in self._sizes.items():
             old_shape = self._file[field].shape

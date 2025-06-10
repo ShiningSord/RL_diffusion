@@ -23,7 +23,7 @@ pip install -e .
 
 ## Running DDPO
 ```
-python pipeline/policy_gradient.py --dataset compressed-animals
+python pipeline/policy_gradient.py --dataset compressed_animals
 ```
 
 The `--dataset` flag can be replaced by any of the configs defined in `config/base.py`.
