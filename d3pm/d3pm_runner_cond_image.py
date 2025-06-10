@@ -353,7 +353,7 @@ class D3PM(nn.Module):
 if __name__ == "__main__":
 
     N = 2  # number of classes for discretized state per pixel
-    d3pm = D3PM(DummyX0Model(1, N), 1000, num_classes=N, hybrid_loss_coeff=0.0).cuda()
+    d3pm = D3PM(DummyX0Model(1, N), 1000, num_classes=N, hybrid_loss_coeff=0.0, forward_type='absorb').cuda()
     print(f"Total Param Count: {sum([p.numel() for p in d3pm.x0_model.parameters()])}")
     dataset = MNIST(
         "./data",
