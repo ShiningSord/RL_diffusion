@@ -45,11 +45,14 @@ python d3pm_runner_cifar.py
 
 ## Requirements
 
-Install torch, torchvision, pillow, tqdm
+Create the conda environment with the provided `environment.yml` file:
 
 ```bash
-pip install torch torchvision pillow tqdm
+conda env create -f environment.yml
+conda activate d3pm
 ```
+
+This installs PyTorch and the required libraries (`torchvision`, `pillow`, `tqdm`, etc.) for you.
 
 ## Citation
 
