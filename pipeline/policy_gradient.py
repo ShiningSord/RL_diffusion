@@ -221,7 +221,7 @@ def main():
     mean_rewards = []  # mean reward for each epoch
     std_rewards = []  # std reward for each epoch
     for epoch in range(args.num_train_epochs):
-        # list of dicts with entires of shape:
+        # list of dicts with entries of shape:
         # (num_devices * sample_batch_size, ...)
         samples = []
 
