@@ -173,8 +173,8 @@ class H5Writer:
             try:
                 self._file[field][start:end] = x[:]
                 self._sizes[field] += size
-            except:
-                pdb.set_trace()
+            except Exception as e:
+                raise e
 
     def close(self):
         for field, size in self._sizes.items():
